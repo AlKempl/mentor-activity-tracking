@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios'
+import AppNavbar from './AppNavbar'
+import {Container, Row, Col} from 'react-bootstrap';
+import React, { useState } from "react";
 
-class App extends Component {
-  state = {
-    response: {}
-  };
+import Routes from "./Routes";
+import { AppContext } from "./Libs/contextLib";
 
-  componentDidMount() {
-    axios.get('/api/v1/say-something').then((res) => {
-      const response = res.data;
-      this.setState({response});
-    });
-  }
 
-  render() {
+const _ = require('lodash');
+
+function App() {
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
+
     return (
-      <div className="App">
-        <h1>Here is our new feature!</h1>
-        <h1>{this.state.response.body}</h1>
-      </div>
+            <div className="App">
+                <AppNavbar/>
+                <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+                    <Routes />
+                </AppContext.Provider>
+            </div>
     );
-  }
 }
 
 export default App;

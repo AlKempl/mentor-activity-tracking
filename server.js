@@ -3,6 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+let passport = require('passport');
+let passport_local = require('passport-local');
+let expressSession = require("express-session");
+let bcrypt = require("bcrypt")
+
+const user_model = require('./models/user');
 
 // Create a new express application called 'app'
 const app = express();
@@ -25,10 +31,52 @@ app.use(bodyParser.urlencoded({
 // Set up the CORs middleware
 app.use(cors());
 
-// Require Route
-const api = require('./routes/routes');
-// Configure app to use route
-app.use('/api/v1/', api);
+// Passport
+let LocalStrategy = passport_local.Strategy;
+
+passport.serializeUser(function(user, done) {
+    //In serialize user you decide what to store in the session. Here I'm storing the user id only.
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    //Here you retrieve all the info of the user from the session storage
+    // using the user id stored in the session earlier using serialize user.
+    user_model.findById(id).then(r => function(err, user)  {
+        done(err, user);
+    });
+});
+
+let loc = new LocalStrategy('', function(username, password, done) {
+    user_model.findOne( username).then(r => function (err, student) {
+        if (err) return done(err, {message: message});//wrong roll_number or password;
+        let pass_retrieved = student.pass_word;
+        bcrypt.compare(password, pass_retrieved, function (err3, correct) {
+            if (err3) {
+                message = [{"msg": "Incorrect Password!"}];
+                return done(null, false, {message: message});  // wrong password
+            }
+            if (correct) {
+                return done(null, student);
+            }
+        }) ;
+    });
+})
+
+passport.use('local', loc);
+
+//to make passport remember the user on other pages too.(Read about session store. I used express-sessions.)
+app.use(expressSession({
+    secret: "This is one hell of a secret",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// API
+app.use('/api/auth/', require('./routes/auth'));
 
 // This middleware informs the express application to serve our compiled React files
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
@@ -37,7 +85,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
     app.get('*', function (req, res) {
         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
-};
+}
 
 // Catch any bad requests
 app.get('*', (req, res) => {
