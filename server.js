@@ -30,12 +30,14 @@ const api = require('./routes/routes');
 // Configure app to use route
 app.use('/api/v1/', api);
 
+process.env.PWD = process.cwd()
+
 // This middleware informs the express application to serve our compiled React files
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.use(express.static(path.join(process.env.PWD, 'client/build')));
 
     app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+        res.sendFile(path.join(process.env.PWD, 'client/build', 'index.html'));
     });
 };
 
