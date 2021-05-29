@@ -18,7 +18,7 @@ router.post('/auth', passport.authenticate('local', {
 });
 
 
-router.get('/auth',
+router.get('/',
     async (req, res, next) => {
         let result = {message:'fsdfdsf'};
         res.send(result);
