@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+var flash = require('connect-flash');
 let passport = require('passport');
 let passport_local = require('passport-local');
 let expressSession = require("express-session");
@@ -15,6 +16,8 @@ const app = express();
 
 // Set our backend port to be either an environment variable or port 5000
 const port = process.env.PORT || 5000;
+
+app.use(flash());
 
 // This application level middleware prints incoming requests to the servers console
 app.use((req, res, next) => {
@@ -47,7 +50,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-let loc = new LocalStrategy('', function(username, password, done) {
+let loc = new LocalStrategy({passReqToCallback : true}, function(username, password, done) {
     user_model.findOne( username).then(r => function (err, student) {
         if (err) return done(err, {message: message});//wrong roll_number or password;
         let pass_retrieved = student.password;
