@@ -22,7 +22,6 @@ export default function Login() {
         try {
             axios.get('/api/v1/say-something').then((res) => {
                 const response = res.data;
-                this.setState({response});
                 alert(response);
             });
             //await Auth.signIn(email, password);
