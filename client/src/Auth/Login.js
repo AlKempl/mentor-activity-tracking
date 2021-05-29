@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 import { useAppContext } from "../Libs/contextLib";
+import axios from 'axios';
 
 
 export default function Login() {
@@ -19,8 +20,12 @@ export default function Login() {
         event.preventDefault();
 
         try {
+            axios.get('/api/v1/say-something').then((res) => {
+                const response = res.data;
+                this.setState({response});
+                alert(response);
+            });
             //await Auth.signIn(email, password);
-            //alert("Logged in");
             userHasAuthenticated(true);
         } catch (e) {
             alert(e.message);
