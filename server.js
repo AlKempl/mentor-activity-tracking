@@ -50,7 +50,7 @@ passport.deserializeUser(function(id, done) {
 let loc = new LocalStrategy('', function(username, password, done) {
     user_model.findOne( username).then(r => function (err, student) {
         if (err) return done(err, {message: message});//wrong roll_number or password;
-        let pass_retrieved = student.pass_word;
+        let pass_retrieved = student.password;
         bcrypt.compare(password, pass_retrieved, function (err3, correct) {
             if (err3) {
                 message = [{"msg": "Incorrect Password!"}];

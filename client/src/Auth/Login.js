@@ -4,10 +4,11 @@ import Button from "react-bootstrap/Button";
 import "./Login.css";
 import { useAppContext } from "../Libs/contextLib";
 import axios from 'axios';
+import {FormLabel} from "react-bootstrap";
 
 
 export default function Login() {
-    const { userHasAuthenticated } = useAppContext();
+    const { isAuthenticated, userHasAuthenticated } = useAppContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,9 +21,9 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            axios.get('/api/v1/say-something').then((res) => {
+            axios.post('/api/auth/login').then((res) => {
                 const response = res.data;
-                alert(response);
+                alert(response.message);
             });
             //await Auth.signIn(email, password);
             userHasAuthenticated(true);
@@ -34,6 +35,7 @@ export default function Login() {
     return (
         <div className="Login">
             <Form onSubmit={handleSubmit}>
+                <FormLabel>isAuthenticated: {isAuthenticated ? '1' : '0'}</FormLabel>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
