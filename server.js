@@ -93,6 +93,7 @@ app.use(passport.session());
 
 // API
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/dev', require('./routes/dev'));
 
 process.env.PWD = process.cwd()
 
