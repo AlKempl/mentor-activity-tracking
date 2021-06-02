@@ -23,7 +23,6 @@ export default function Login() {
         try {
             axios.post('/api/auth/login').then((res) => {
                 const response = res.data;
-                alert(response.message);
             });
             //await Auth.signIn(email, password);
             userHasAuthenticated(true);

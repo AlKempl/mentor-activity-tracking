@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 // Set up the bodyParser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 
 // Set up the CORs middleware
@@ -50,7 +50,8 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-let loc = new LocalStrategy({passReqToCallback : true}, function(username, password, done) {
+let loc = new LocalStrategy({passReqToCallback : true},
+    function(username, password, done) {
     user_model.findOne( username).then(r => function (err, student) {
         if (err) return done(err, {message: message});//wrong roll_number or password;
         let pass_retrieved = student.password;
