@@ -25,14 +25,15 @@ app.use((req, res, next) => {
     next();
 });
 
+// Set up the CORs middleware
+app.use(cors());
+
 // Set up the bodyParser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Set up the CORs middleware
-app.use(cors());
 
 // Passport
 let LocalStrategy = passport_local.Strategy;

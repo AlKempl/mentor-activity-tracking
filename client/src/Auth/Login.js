@@ -25,7 +25,6 @@ export default function Login() {
                 const response = res.data;
                 console.log(response);
             });
-            //await Auth.signIn(login, password);
             userHasAuthenticated(true);
         } catch (e) {
             alert(e.message);
