@@ -15,6 +15,7 @@ import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
+import Redirect from "react-router-dom/es/Redirect";
 
 const _ = require('lodash');
 
@@ -107,8 +108,8 @@ class App extends Component {
                 </Navbar>
                 <Switch>
                     <Route exact path={["/", "/home"]}><Home/></Route>
-                    <Route exact path="/login"><Login/></Route>
-                    <Route exact path="/register"><Register/></Route>
+                    <Route exact path="/login"> {currentUser ? <Redirect to="/" /> : <Login />}</Route>
+                    <Route exact path="/register"> {currentUser ? <Redirect to="/" /> : <Register />}</Route>
                     <Route exact path="/profile"><Profile/></Route>
                     <Route exact path="/user"><BoardUser/></Route>
                     <Route exact path="/mod"><BoardModerator/></Route>
