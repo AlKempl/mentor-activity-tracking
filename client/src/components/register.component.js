@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./login.component.css";
+import "./register.component.css";
 
 import AuthService from "../services/auth.service";
 
@@ -79,7 +79,7 @@ export default class Register extends Component {
     render() {
         return (
             <div className="Register">
-                <Form onSubmit={this.handleRegister()} ref={c => {
+                <Form onSubmit={e => this.handleRegister(e)} ref={c => {
                     this.form = c;
                 }}>
                     {!this.state.successful && (<div>
@@ -116,7 +116,7 @@ export default class Register extends Component {
                     <Button block size="lg" type="submit" disabled={this.state.loading}>
                         Sign Up
                     </Button>
-                    this.state.message && (
+                    {this.state.message && (
                     <div className="form-group">
                         <div
                             className={
