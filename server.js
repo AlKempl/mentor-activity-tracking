@@ -14,6 +14,10 @@ const user_model = require('./models/user');
 // Create a new express application called 'app'
 const app = express();
 
+
+// Set up the CORs middleware
+app.use(cors());
+
 // Set our backend port to be either an environment variable or port 5000
 const port = process.env.PORT || 5000;
 
@@ -25,8 +29,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Set up the CORs middleware
-app.use(cors());
 
 // Set up the bodyParser middleware
 app.use(bodyParser.json());
@@ -90,7 +92,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // API
-app.use('/api/auth/', require('./routes/auth'));
+app.use('/api/auth', require('./routes/auth'));
 
 process.env.PWD = process.cwd()
 
