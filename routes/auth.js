@@ -7,40 +7,42 @@ let passport = require('passport');
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 
-// router.post('/login', passport.authenticate('local',
-//     {successRedirect: '/',
-//     failureRedirect: '/login',
-//     failureFlash: true
-// }), function (req, res) {
-//     if (req.body.remember) {
-//         req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
-//     } else {
-//         req.session.cookie.expires = false; // Cookie expires at end of session
-//     }
-//     res.redirect('/');
-// });
-
-router.post(
-    '/login',
-    passport.authenticate('local', {
+router.post('/login', passport.authenticate('local',
+    {
         successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true,
         badRequestMessage: 'Please enter your account credentials to login.'
-    }),
-    function(req, res) {
-        console.log(req.body.remember);
-        if(req.isAuthenticated(req, res)) {
-            res.redirect('/');
-        } else {
-            var errors = req.flash('error');
-            if(errors) {
-                assign['errors'] = errors;
-            }
-            res.render('login.html', {errors: errors});
-        }
+    }), function (req, res) {
+    if (req.body.remember) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+    } else {
+        req.session.cookie.expires = false; // Cookie expires at end of session
     }
-);
+    res.redirect('/');
+});
+
+// router.post(
+//     '/login',
+//     passport.authenticate('local', {
+//         successRedirect: '/',
+//         failureRedirect: '/login',
+//         failureFlash: true,
+//         badRequestMessage: 'Please enter your account credentials to login.'
+//     }),
+//     function(req, res) {
+//         console.log(req.body.remember);
+//         if(req.isAuthenticated(req, res)) {
+//             res.redirect('/');
+//         } else {
+//             var errors = req.flash('error');
+//             if(errors) {
+//                 assign['errors'] = errors;
+//             }
+//             res.render('login.html', {errors: errors});
+//         }
+//     }
+// );
 
 
 router.get('/',
