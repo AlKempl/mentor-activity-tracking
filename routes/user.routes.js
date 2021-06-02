@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 
-const { authJwt } = require("../middleware");
+const {authJwt} = require("../middleware");
 const controller = require("../controllers/user.controller");
 
 router.get("/all", controller.allAccess);

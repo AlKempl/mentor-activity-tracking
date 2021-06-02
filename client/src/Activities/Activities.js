@@ -12,7 +12,7 @@ export default class Activities extends React.Component {
     generateHeader() {
         let res = [];
         //res.push({dataField: 'name', text: 'Mentor name', headerStyle: {width: '25%'}})
-         res.push(<th style={{width: '25%'}} key={this.state.columns[0].dataField}>{this.state.columns[0].text}</th>)
+        res.push(<th style={{width: '25%'}} key={this.state.columns[0].dataField}>{this.state.columns[0].text}</th>)
         for (var i = 1; i < this.state.columns.length; i++) {
             res.push(<th style={{width: '5%'}} key={this.state.columns[i].dataField}>{this.state.columns[i].text}</th>)
             //res.push({dataField: 'blah', text: this.state.columns[i]})

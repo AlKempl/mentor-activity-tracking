@@ -19,8 +19,8 @@ router.post(
 );
 
 router.post("/signin", [
-            body('username').trim().notEmpty().isAlpha('en-US').isLength({min: 3}).escape(),
-            body('password').trim().notEmpty().escape()
+        body('username').trim().notEmpty().isAlpha('en-US').isLength({min: 3}).escape(),
+        body('password').trim().notEmpty().escape()
     ],
     controller.signin);
 

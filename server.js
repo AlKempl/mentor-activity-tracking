@@ -33,10 +33,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
     db.sequelize.sync();
-}else if(process.env.RECREATE_DB === '1'){
+} else if (process.env.RECREATE_DB === '1') {
     let init = require('./config/db.init');
     console.log('Drop and Resync Db');
     db.sequelize.sync({force: true}).then(() => {
@@ -46,7 +45,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 
 
 // API
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header(
         "Access-Control-Allow-Headers",
         "x-access-token, Origin, Content-Type, Accept"
@@ -66,7 +65,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
     app.get('*', function (req, res) {
         res.sendFile(path.join(process.env.PWD, 'client/build', 'index.html'));
     });
-}else{
+} else {
 
 // Catch any bad requests
     app.get('*', (req, res) => {

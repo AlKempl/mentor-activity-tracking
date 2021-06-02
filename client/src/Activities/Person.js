@@ -20,18 +20,18 @@ export default class Person extends React.Component {
         );
     }
 
-    badgeVariant(value){
+    badgeVariant(value) {
         let number = Number(value)
-        if (value === '' || number === 0){
-            return {value:'+', variant:'light'};
-        }else if( 1 <= number && number <= 3){
-            return {value:number, variant:'info'};
-        }else if( 4 <= number && number <= 6){
-            return {value:number, variant:'primary'};
-        }else if( 7 <= number ){
-            return {value:number, variant:'success'};
-        }else
-            return {value:number, variant:'warning'};
+        if (value === '' || number === 0) {
+            return {value: '+', variant: 'light'};
+        } else if (1 <= number && number <= 3) {
+            return {value: number, variant: 'info'};
+        } else if (4 <= number && number <= 6) {
+            return {value: number, variant: 'primary'};
+        } else if (7 <= number) {
+            return {value: number, variant: 'success'};
+        } else
+            return {value: number, variant: 'warning'};
     }
 
 
@@ -42,8 +42,9 @@ export default class Person extends React.Component {
             let temp_dat = this.badgeVariant(value.value)
             console.log(temp_dat)
             res.push(
-                <td key={this.state.name+key}>
-                    <Example badge_variant={temp_dat.variant} value={temp_dat.value} data={{name:this.state.name, columnIdx:key, columnName:value.label}}/>
+                <td key={this.state.name + key}>
+                    <Example badge_variant={temp_dat.variant} value={temp_dat.value}
+                             data={{name: this.state.name, columnIdx: key, columnName: value.label}}/>
                 </td>
             )
         }

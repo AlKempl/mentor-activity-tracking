@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./notfound.component.css";
 
-export default class Notfound extends Component {
+export default class NotFound extends Component {
     constructor(props) {
         super(props);
 

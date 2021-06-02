@@ -1,11 +1,10 @@
-import Activities from './Activities/Activities'
-import mentorActivityFormatter from './Activities/formatter'
-import Person from './Activities/Person'
+import Activities from './Activities'
+import mentorActivityFormatter from './formatter'
+import Person from './Person'
 import {Col, Container, Row} from "react-bootstrap";
-import AppNavbar from "../AppNavbar";
 import React from "react";
 
-function ActivitiesViews(){
+function ActivitiesViews() {
     let columns = [{text: "Mentor", dataField: "name", headerStyle: {width: '25%'}}]
 
     let events_dat = {
@@ -68,4 +67,5 @@ function ActivitiesViews(){
     );
 
 }
+
 export default ActivitiesViews

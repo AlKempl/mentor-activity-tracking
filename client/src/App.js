@@ -1,10 +1,7 @@
 import './App.css';
-import AppNavbar from './AppNavbar'
-import {Container, Row, Col, Navbar, Nav} from 'react-bootstrap';
-import React, {Component, useState} from "react";
+import {Nav, Navbar} from 'react-bootstrap';
+import React, {Component} from "react";
 
-import Routes from "./Routes";
-import {AppContext} from "./Libs/contextLib";
 import {LinkContainer} from "react-router-bootstrap";
 
 import AuthService from "./services/auth.service";
@@ -17,7 +14,7 @@ import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import {Route, Switch} from "react-router-dom";
-import NotFound from "./NotFound/NotFound";
+import NotFound from "./components/notfound.component";
 
 const _ = require('lodash');
 
@@ -109,16 +106,16 @@ class App extends Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <Switch>
-                    <Route exact path={["/", "/home"]}><Home /></Route>
-                    <Route exact path="/login"><Login /></Route>
-                    <Route exact path="/register"><Register /></Route>
-                    <Route exact path="/profile"><Profile /></Route>
-                    <Route exact path="/user"><BoardUser /></Route>
-                    <Route exact path="/mod"><BoardModerator /></Route>
-                    <Route exact path="/admin"><BoardAdmin /></Route>
+                    <Route exact path={["/", "/home"]}><Home/></Route>
+                    <Route exact path="/login"><Login/></Route>
+                    <Route exact path="/register"><Register/></Route>
+                    <Route exact path="/profile"><Profile/></Route>
+                    <Route exact path="/user"><BoardUser/></Route>
+                    <Route exact path="/mod"><BoardModerator/></Route>
+                    <Route exact path="/admin"><BoardAdmin/></Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
-                        <NotFound />
+                        <NotFound/>
                     </Route>
                 </Switch>
             </div>
