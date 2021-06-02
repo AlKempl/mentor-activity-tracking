@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./login.component.css";
-import {withRouter} from 'react-router-dom';
 
 import AuthService from "../services/auth.service";
 
@@ -43,8 +42,7 @@ export default class Login extends Component {
 
         AuthService.login(this.state.username, this.state.password).then(
             () => {
-                this.props.history.push("/profile");
-                window.location.reload();
+                window.location.href= '/profile';
             },
             error => {
                 const resMessage =
@@ -102,5 +100,3 @@ export default class Login extends Component {
         );
     }
 }
-withRouter(Login);
-
