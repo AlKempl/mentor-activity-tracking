@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 // Set up the bodyParser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 
 // Set up the CORs middleware
@@ -37,35 +37,44 @@ app.use(cors());
 // Passport
 let LocalStrategy = passport_local.Strategy;
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     //In serialize user you decide what to store in the session. Here I'm storing the user id only.
     done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser(function (id, done) {
     //Here you retrieve all the info of the user from the session storage
     // using the user id stored in the session earlier using serialize user.
-    user_model.findById(id).then(r => function(err, user)  {
+    user_model.findById(id).then(r => function (err, user) {
         done(err, user);
     });
 });
 
-let loc = new LocalStrategy({passReqToCallback : true},
-    function(username, password, done) {
-    user_model.findOne( username).then(r => function (err, student) {
-        if (err) return done(err, {message: message});//wrong roll_number or password;
-        let pass_retrieved = student.password;
+let loc = new LocalStrategy({passReqToCallback: true},
+    async function (blah, username, password, done) {
+        let user = await user_model.findOne(username);
+        let message;
+        if (!user) {
+            message = [{"msg": "Incorrect Login!"}];
+            return done(err, {message: message});//wrong roll_number or password;
+        }
+
+        let pass_retrieved = user.password;
+        console.error('INPUT', username, password);
+        console.error('DATA', pass_retrieved);
+
         bcrypt.compare(password, pass_retrieved, function (err3, correct) {
             if (err3) {
+                console.error('LOLO', 'err3');
                 message = [{"msg": "Incorrect Password!"}];
                 return done(null, false, {message: message});  // wrong password
             }
             if (correct) {
-                return done(null, student);
+                console.error('LOLO', 'correct');
+                return done(null, user);
             }
-        }) ;
+        });
     });
-})
 
 passport.use('local', loc);
 

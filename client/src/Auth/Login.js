@@ -10,11 +10,11 @@ import {FormLabel} from "react-bootstrap";
 export default function Login() {
     const { isAuthenticated, userHasAuthenticated } = useAppContext();
 
-    const [email, setEmail] = useState("");
+    const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return login.length > 0 && password.length > 0;
     }
 
     async function handleSubmit(event) {
@@ -23,8 +23,9 @@ export default function Login() {
         try {
             axios.post('/api/auth/login').then((res) => {
                 const response = res.data;
+                console.log(response);
             });
-            //await Auth.signIn(email, password);
+            //await Auth.signIn(login, password);
             userHasAuthenticated(true);
         } catch (e) {
             alert(e.message);
@@ -35,13 +36,13 @@ export default function Login() {
         <div className="Login">
             <Form onSubmit={handleSubmit}>
                 <FormLabel>isAuthenticated: {isAuthenticated ? '1' : '0'}</FormLabel>
-                <Form.Group size="lg" controlId="email">
-                    <Form.Label>Email</Form.Label>
+                <Form.Group size="lg" controlId="username">
+                    <Form.Label>Login</Form.Label>
                     <Form.Control
                         autoFocus
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
