@@ -100,17 +100,17 @@ process.env.PWD = process.cwd()
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
     app.use(express.static(path.join(process.env.PWD, 'client/build')));
 
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(process.env.PWD, 'client/build', 'index.html'));
-    });
+    // app.get('*', function (req, res) {
+    //     res.sendFile(path.join(process.env.PWD, 'client/build', 'index.html'));
+    // });
 }
-//
-// // Catch any bad requests
-// app.get('*', (req, res) => {
-//     res.status(200).json({
-//         msg: 'Catch All'
-//     });
-// });
+
+// Catch any bad requests
+app.get('*', (req, res) => {
+    res.status(200).json({
+        msg: 'Catch All'
+    });
+});
 
 // Set our server to listen on the port defiend by our port variable
 app.listen(port, () => console.log(`BACK_END_SERVICE_PORT: ${port}`));
