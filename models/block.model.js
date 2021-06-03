@@ -2,21 +2,18 @@
 module.exports = (sequelize, Sequelize) => {
     let dt = require("sequelize").DataTypes;
 
-    const User = sequelize.define("users", {
-        username: {
+    const Block = sequelize.define("blocks", {
+        name: {
             type: dt.STRING
         },
-        email: {
+        description: {
             type: dt.STRING
         },
-        password: {
-            type: dt.STRING
-        },
-        enabled: {
+        active: {
             type: dt.INTEGER,
             defaultValue: 1
         }
     });
 
-    return User;
+    return Block;
 };

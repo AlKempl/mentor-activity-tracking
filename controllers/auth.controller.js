@@ -64,7 +64,7 @@ exports.signin = (req, res) => {
             }
 
             var token = jwt.sign({id: user.id}, config.secret, {
-                expiresIn: 86400 // 24 hours
+                expiresIn: config.token_ttl_sec
             });
 
             var authorities = [];
@@ -84,4 +84,8 @@ exports.signin = (req, res) => {
         .catch(err => {
             res.status(500).send({message: err.message});
         });
+};
+
+exports.blockhead = (req, res) => {
+    res.status(418).send("Use POST, you, curly blockhead!");
 };

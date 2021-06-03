@@ -34,7 +34,7 @@ isAdmin = (req, res, next) => {
             }
 
             res.status(403).send({
-                message: "Require Admin Role!"
+                message: "Require Administrator Role!"
             });
 
         });
@@ -45,31 +45,14 @@ isModerator = (req, res, next) => {
     User.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name in ['senior', 'mentor', 'admin']) {
+                if (['senior', 'mentor', 'admin'].includes(roles[i].name)) {
                     next();
                     return;
                 }
             }
 
             res.status(403).send({
-                message: "Require Moderator Role!"
-            });
-        });
-    });
-};
-
-isModeratorOrAdmin = (req, res, next) => {
-    User.findByPk(req.userId).then(user => {
-        user.getRoles().then(roles => {
-            for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name in ['senior', 'mentor', 'admin']) {
-                    next();
-                    return;
-                }
-            }
-
-            res.status(403).send({
-                message: "Require Moderator or Admin Role!"
+                message: "Require Moderator or Administrator Role!"
             });
         });
     });
@@ -78,7 +61,6 @@ isModeratorOrAdmin = (req, res, next) => {
 const authJwt = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
-    isModerator: isModerator,
-    isModeratorOrAdmin: isModeratorOrAdmin
+    isModerator: isModerator
 };
 module.exports = authJwt;

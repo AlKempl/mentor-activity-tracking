@@ -32,15 +32,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    db.sequelize.sync();
-} else if (process.env.RECREATE_DB === '1') {
+if (!(['production', 'staging'].includes(process.env.NODE_ENV)) && process.env.RECREATE_DB === '1') {
     let init = require('./config/db.init');
-    console.log('Drop and Resync Db');
+    console.log('Force Drop and Resync Db');
     db.sequelize.sync({force: true}).then(() => {
         init.init();
     });
+} else if(process.env.PREVENT_RECREATE_DB !== '1'){
+    console.log('Alter Drop and Resync Db');
+    db.sequelize.sync({alter: true});
 }
 
 
@@ -53,8 +53,23 @@ app.use(function (req, res, next) {
     next();
 });
 
+// public
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/test', require('./routes/user.routes'));
+
+// authorised
+app.use('/api/stats', require('./routes/notimplemented.routes'));
+app.use('/api/profile', require('./routes/notimplemented.routes'));
+
+// authorised moder
+app.use('/api/mod/lessons', require('./routes/notimplemented.routes'));
+
+// authorised admin
+app.use('/api/admin/users', require('./routes/notimplemented.routes'));
+app.use('/api/admin/mentors', require('./routes/notimplemented.routes'));
+app.use('/api/admin/blocks', require('./routes/notimplemented.routes'));
+app.use('/api/admin/settings', require('./routes/notimplemented.routes'));
+
 
 process.env.PWD = process.cwd()
 

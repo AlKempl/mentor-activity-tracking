@@ -1,8 +1,11 @@
 import React, {Component} from "react";
 
 import UserService from "../services/user.service";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import BoardUser from "./board-user.component";
 
-export default class BoardUser extends Component {
+export default class BoardAdmin extends Component {
     constructor(props) {
         super(props);
 
@@ -37,6 +40,17 @@ export default class BoardUser extends Component {
                 <header className="jumbotron">
                     <h3>{this.state.content}</h3>
                 </header>
+                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                    <Tab eventKey="home" title="Пользователи">
+                        <BoardUser />
+                    </Tab>
+                    <Tab eventKey="profile" title="Блоки">
+                        <BoardUser />
+                    </Tab>
+                    <Tab eventKey="contact" title="Настройки">
+                        <BoardUser />
+                    </Tab>
+                </Tabs>
             </div>
         );
     }

@@ -16,6 +16,7 @@ import BoardAdmin from "./components/board-admin.component";
 import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
 import Redirect from "react-router-dom/es/Redirect";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 const _ = require('lodash');
 
@@ -27,6 +28,7 @@ class App extends Component {
         this.state = {
             showModeratorBoard: false,
             showAdminBoard: false,
+            showUserBoard: false,
             currentUser: undefined,
         };
     }
@@ -37,8 +39,9 @@ class App extends Component {
         if (user) {
             this.setState({
                 currentUser: user,
-                showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+                showModeratorBoard: user.roles.includes("ROLE_MENTOR") || user.roles.includes("ROLE_SENIOR"),
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+                showUserBoard: user.roles.includes("ROLE_USER"),
             });
         }
     }
@@ -48,24 +51,30 @@ class App extends Component {
             currentUser: null,
             showModeratorBoard: false,
             showAdminBoard: false,
+            showUserBoard: false,
         });
         AuthService.logout();
     }
 
     render() {
-        const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
-
+        const {currentUser, showModeratorBoard, showAdminBoard, showUserBoard} = this.state;
         return (
             <div className="App">
                 <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
                     <LinkContainer to="/">
                         <Navbar.Brand className="font-weight-bold text-muted">
-                            Scratch
+                            BI Bootcamp
                         </Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle/>
                     <Navbar.Collapse className="justify-content-end">
                         <Nav activeKey={window.location.pathname}>
+                            {showUserBoard && (
+                                <LinkContainer to="/user">
+                                    <Nav.Link>User Board</Nav.Link>
+                                </LinkContainer>
+                            )}
+
                             {showModeratorBoard && (
                                 <LinkContainer to="/mod">
                                     <Nav.Link>Moderator Board</Nav.Link>
@@ -78,20 +87,13 @@ class App extends Component {
                                 </LinkContainer>
                             )}
 
-                            {showAdminBoard && (
-                                <LinkContainer to="/user">
-                                    <Nav.Link>User Board</Nav.Link>
-                                </LinkContainer>
-                            )}
-
                             {currentUser ? (
                                 <div>
-                                    <LinkContainer to="/profile">
-                                        <Nav.Link>{currentUser.username}</Nav.Link>
-                                    </LinkContainer>
-                                    <LinkContainer to="/login">
-                                        <Nav.Link onSelect={this.logOut}>Logout</Nav.Link>
-                                    </LinkContainer>
+                                    <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
+                                    </NavDropdown>
                                 </div>
                             ) : (
                                 <div>
