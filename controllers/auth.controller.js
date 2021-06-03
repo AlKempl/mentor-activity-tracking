@@ -85,3 +85,7 @@ exports.signin = (req, res) => {
             res.status(500).send({message: err.message});
         });
 };
+
+exports.blockhead = (req, res) => {
+    res.status(418).send("Use POST, you, curly blockhead!");
+};
