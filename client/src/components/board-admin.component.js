@@ -4,6 +4,8 @@ import UserService from "../services/user.service";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import BoardUser from "./board-user.component";
+import AdminUsersComponent from "./admin-users.component";
+import AdminBlocksComponent from "./admin-blocks.component";
 
 export default class BoardAdmin extends Component {
     constructor(props) {
@@ -37,18 +39,18 @@ export default class BoardAdmin extends Component {
     render() {
         return (
             <div className="container">
-                <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
-                </header>
-                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-                    <Tab eventKey="home" title="Пользователи">
-                        <BoardUser />
+                {/*<header className="jumbotron">*/}
+                {/*    <h3>{this.state.content}</h3>*/}
+                {/*</header>*/}
+                <Tabs defaultActiveKey="users" id="uncontrolled-tab-example">
+                    <Tab eventKey="users" title="Пользователи">
+                        <AdminUsersComponent />
                     </Tab>
-                    <Tab eventKey="profile" title="Блоки">
-                        <BoardUser />
+                    <Tab eventKey="blocks" title="Блоки">
+                        <AdminBlocksComponent />
                     </Tab>
-                    <Tab eventKey="contact" title="Настройки">
-                        <BoardUser />
+                    <Tab eventKey="settings" title="Настройки">
+                        {this.state.content}
                     </Tab>
                 </Tabs>
             </div>
