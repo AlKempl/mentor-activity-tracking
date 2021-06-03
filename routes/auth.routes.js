@@ -24,4 +24,8 @@ router.post("/signin", [
     ],
     controller.signin);
 
+router.get("/signup", controller.blockhead);
+
+router.get("/signin", controller.blockhead);
+
 module.exports = router;
