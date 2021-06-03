@@ -44,7 +44,7 @@ export default class Profile extends Component {
                             <ListGroupItem>
                                 <strong>Authorities: </strong>
                                 {currentUser.roles &&
-                                currentUser.roles.join()}
+                                currentUser.roles.join(', ')}
                             </ListGroupItem>
                         </ListGroup>
                     </Card.Body>
