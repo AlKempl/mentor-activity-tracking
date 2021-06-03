@@ -26,12 +26,12 @@ export default class Profile extends Component {
                     <Card.Header>
                         <h3><strong>{currentUser.username}</strong> Profile</h3>
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body style={{textAlign: "left"}}>
                         <ListGroup className="list-group-flush">
                             <ListGroupItem>
                                 <strong>Token:</strong>{" "}
-                                {currentUser.accessToken.substring(0, 5)} ...{" "}
-                                {currentUser.accessToken.substr(currentUser.accessToken.length - 5)}
+                                {currentUser.accessToken.substring(0, 6)} **** {" "}
+                                {currentUser.accessToken.substr(currentUser.accessToken.length - 6)}
                             </ListGroupItem>
                             <ListGroupItem>
                                 <strong>Id:</strong>{" "}
