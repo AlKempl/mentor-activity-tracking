@@ -32,15 +32,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    db.sequelize.sync({ alter: true });
-} else if (process.env.RECREATE_DB === '1') {
+if (!(['production', 'staging'].includes(process.env.NODE_ENV)) && process.env.RECREATE_DB === '1') {
     let init = require('./config/db.init');
-    console.log('Drop and Resync Db');
+    console.log('Force Drop and Resync Db');
     db.sequelize.sync({force: true}).then(() => {
         init.init();
     });
+} else if(process.env.PREVENT_RECREATE_DB !== '1'){
+    console.log('Alter Drop and Resync Db');
+    db.sequelize.sync({alter: true});
 }
 
 
