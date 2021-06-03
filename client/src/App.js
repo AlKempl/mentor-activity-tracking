@@ -86,32 +86,32 @@ class App extends Component {
                                     <Nav.Link>Admin Board</Nav.Link>
                                 </LinkContainer>
                             )}
+                        </Nav>
 
                             {currentUser ? (
-                                <div>
+                                <Nav pullRight>
                                     <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Divider />
+                                        <NavDropdown.Divider/>
                                         <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
                                     </NavDropdown>
-                                </div>
+                                </Nav>
                             ) : (
-                                <div>
-                                    <LinkContainer to="/login">
-                                        <Nav.Link>Login</Nav.Link>
-                                    </LinkContainer>
-                                    <LinkContainer to="/register">
-                                        <Nav.Link>Sign Up</Nav.Link>
-                                    </LinkContainer>
-                                </div>
+                                <Nav pullRight>
+                                        <LinkContainer to="/login">
+                                            <Nav.Link>Login</Nav.Link>
+                                        </LinkContainer>
+                                        <LinkContainer to="/register">
+                                            <Nav.Link>Sign Up</Nav.Link>
+                                        </LinkContainer>
+                                </Nav>
                             )}
-                        </Nav>
                     </Navbar.Collapse>
                 </Navbar>
                 <Switch>
                     <Route exact path={["/", "/home"]}><Home/></Route>
-                    <Route exact path="/login"> {currentUser ? <Redirect to="/" /> : <Login />}</Route>
-                    <Route exact path="/register"> {currentUser ? <Redirect to="/" /> : <Register />}</Route>
+                    <Route exact path="/login"> {currentUser ? <Redirect to="/"/> : <Login/>}</Route>
+                    <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
                     <Route exact path="/profile"><Profile/></Route>
                     <Route exact path="/user"><BoardUser/></Route>
                     <Route exact path="/mod"><BoardModerator/></Route>
