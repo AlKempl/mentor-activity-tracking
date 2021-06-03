@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import UserService from "../services/user.service";
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 export default class BoardUser extends Component {
     constructor(props) {
@@ -33,11 +34,11 @@ export default class BoardUser extends Component {
 
     render() {
         return (
-            <div className="container">
-                <header className="jumbotron">
+            <Jumbotron>
+                <div className="container">
                     <h3>{this.state.content}</h3>
-                </header>
-            </div>
+                </div>
+            </Jumbotron>
         );
     }
 }
