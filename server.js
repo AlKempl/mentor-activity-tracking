@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({
 
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-    db.sequelize.sync();
+    db.sequelize.sync({ alter: true });
 } else if (process.env.RECREATE_DB === '1') {
     let init = require('./config/db.init');
     console.log('Drop and Resync Db');
