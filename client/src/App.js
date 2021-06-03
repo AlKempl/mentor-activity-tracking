@@ -91,9 +91,6 @@ class App extends Component {
                                 <div>
                                     <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
                                     </NavDropdown>
