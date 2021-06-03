@@ -38,7 +38,7 @@ class App extends Component {
         if (user) {
             this.setState({
                 currentUser: user,
-                showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+                showModeratorBoard: user.roles.includes("ROLE_MENTOR") || user.roles.includes("ROLE_SENIOR"),
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
                 showUserBoard: user.roles.includes("ROLE_USER"),
             });
