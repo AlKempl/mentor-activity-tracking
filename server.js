@@ -43,7 +43,6 @@ if (!(['production', 'staging'].includes(process.env.NODE_ENV)) && process.env.R
     db.sequelize.sync({alter: true});
 }
 
-
 // API
 app.use(function (req, res, next) {
     res.header(
@@ -65,9 +64,9 @@ app.use('/api/profile', require('./routes/notimplemented.routes'));
 app.use('/api/mod/lessons', require('./routes/notimplemented.routes'));
 
 // authorised admin
-app.use('/api/admin/users', require('./routes/notimplemented.routes'));
+app.use('/api/admin/users', require('./routes/admin.users.routes'));
+app.use('/api/admin/blocks', require('./routes/admin.blocks.routes'));
 app.use('/api/admin/mentors', require('./routes/notimplemented.routes'));
-app.use('/api/admin/blocks', require('./routes/notimplemented.routes'));
 app.use('/api/admin/settings', require('./routes/notimplemented.routes'));
 
 
