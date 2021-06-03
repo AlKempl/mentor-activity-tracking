@@ -53,8 +53,23 @@ app.use(function (req, res, next) {
     next();
 });
 
+// public
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/test', require('./routes/user.routes'));
+
+// authorised
+app.use('/api/stats', require('./routes/notimplemented.routes'));
+app.use('/api/profile', require('./routes/notimplemented.routes'));
+
+// authorised moder
+app.use('/api/mod/lessons', require('./routes/notimplemented.routes'));
+
+// authorised admin
+app.use('/api/admin/users', require('./routes/notimplemented.routes'));
+app.use('/api/admin/mentors', require('./routes/notimplemented.routes'));
+app.use('/api/admin/blocks', require('./routes/notimplemented.routes'));
+app.use('/api/admin/settings', require('./routes/notimplemented.routes'));
+
 
 process.env.PWD = process.cwd()
 
