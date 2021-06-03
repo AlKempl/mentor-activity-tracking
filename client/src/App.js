@@ -27,6 +27,7 @@ class App extends Component {
         this.state = {
             showModeratorBoard: false,
             showAdminBoard: false,
+            showUserBoard: false,
             currentUser: undefined,
         };
     }
@@ -39,6 +40,7 @@ class App extends Component {
                 currentUser: user,
                 showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+                showUserBoard: user.roles.includes("ROLE_USER"),
             });
         }
     }
@@ -48,6 +50,7 @@ class App extends Component {
             currentUser: null,
             showModeratorBoard: false,
             showAdminBoard: false,
+            showUserBoard: false,
         });
         AuthService.logout();
     }
@@ -66,6 +69,12 @@ class App extends Component {
                     <Navbar.Toggle/>
                     <Navbar.Collapse className="justify-content-end">
                         <Nav activeKey={window.location.pathname}>
+                            {showUserBoard && (
+                                <LinkContainer to="/user">
+                                    <Nav.Link>User Board</Nav.Link>
+                                </LinkContainer>
+                            )}
+
                             {showModeratorBoard && (
                                 <LinkContainer to="/mod">
                                     <Nav.Link>Moderator Board</Nav.Link>
