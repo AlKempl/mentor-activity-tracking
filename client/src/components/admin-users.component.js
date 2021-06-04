@@ -70,7 +70,7 @@ export default class AdminUsersComponent extends Component {
     render() {
         return (
             <Jumbotron>
-                <div>{JSON.stringify(this.state.users_content)}</div>
+                <UITable data={this.state.users_content}/>
             </Jumbotron>
         );
     }

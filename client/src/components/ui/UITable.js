@@ -7,12 +7,19 @@ export default class UITable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: props.isLoading,
-            data: props.data,
-            columns: props.columns
+            isLoading: true,
+            data: [],
+            columns: []
         };
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({
+            isLoading: props.isLoading,
+            data: props.data,
+            columns: props.columns
+        });
+    }
     componentDidMount() {
         this.rows = this.state.data.map(item => (new UITableRow({key: item.id, data: item})));
     }
