@@ -17,7 +17,6 @@ import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
 import Redirect from "react-router-dom/es/Redirect";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import PrivateRoute from "./components/system/PrivateRoute";
 
 const _ = require('lodash');
 
@@ -47,7 +46,7 @@ class App extends Component {
                 showUserBoard: user.roles.includes("ROLE_USER"),
                 isLoggedIn: isLoggedIn
             });
-        }else{
+        } else {
             this.state = {
                 showModeratorBoard: false,
                 showAdminBoard: false,
@@ -100,34 +99,34 @@ class App extends Component {
                             )}
                         </Nav>
 
-                            {currentUser ? (
-                                <Nav>
-                                    <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Divider/>
-                                        <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
-                                    </NavDropdown>
-                                </Nav>
-                            ) : (
-                                <Nav>
-                                        <LinkContainer to="/login">
-                                            <Nav.Link>Login</Nav.Link>
-                                        </LinkContainer>
-                                        <LinkContainer to="/register">
-                                            <Nav.Link>Sign Up</Nav.Link>
-                                        </LinkContainer>
-                                </Nav>
-                            )}
+                        {currentUser ? (
+                            <Nav>
+                                <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                                    <NavDropdown.Divider/>
+                                    <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
+                                </NavDropdown>
+                            </Nav>
+                        ) : (
+                            <Nav>
+                                <LinkContainer to="/login">
+                                    <Nav.Link>Login</Nav.Link>
+                                </LinkContainer>
+                                <LinkContainer to="/register">
+                                    <Nav.Link>Sign Up</Nav.Link>
+                                </LinkContainer>
+                            </Nav>
+                        )}
                     </Navbar.Collapse>
                 </Navbar>
                 <Switch>
                     <Route exact path={["/", "/home"]}><Home/></Route>
                     <Route exact path="/login"> {currentUser ? <Redirect to="/"/> : <Login/>}</Route>
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
-                    <Route exact path="/profile"> { <Profile/> }</Route>
-                    <Route exact path="/user">{showUserBoard? <BoardUser/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/mod">{( showModeratorBoard)? <BoardModerator/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/admin">{( showAdminBoard)? <BoardAdmin/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/profile"> {<Profile/>}</Route>
+                    <Route exact path="/user">{showUserBoard ? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/mod">{(showModeratorBoard) ? <BoardModerator/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/admin">{(showAdminBoard) ? <BoardAdmin/> : <Redirect to="/"/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>
