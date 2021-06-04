@@ -112,10 +112,10 @@ class App extends Component {
                     <Route exact path={["/", "/home"]}><Home/></Route>
                     <Route exact path="/login"> {currentUser ? <Redirect to="/"/> : <Login/>}</Route>
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
-                    <Route exact path="/profile"><Profile/></Route>
-                    <Route exact path="/user"><BoardUser/></Route>
-                    <Route exact path="/mod"><BoardModerator/></Route>
-                    <Route exact path="/admin"><BoardAdmin/></Route>
+                    <Route exact path="/profile">{(currentUser)? <Profile/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/user">{(currentUser && showUserBoard)? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/mod">{(currentUser && showModeratorBoard)? <BoardModerator/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/admin">{(currentUser && showAdminBoard)? <BoardAdmin/> : <Redirect to="/"/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>
