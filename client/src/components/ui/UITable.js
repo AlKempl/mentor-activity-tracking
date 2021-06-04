@@ -1,31 +1,45 @@
 import React, {Component} from "react";
 import Table from "react-bootstrap/Table";
 import UITableRow from "./UITableRow";
+import {col} from "sequelize";
 
 export default class UITable extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true,
-            data: [],
-            columns: []
+            data: props.data,
+            columns: props.columns,
+            rowActions: props.rowActions,
+            actions: props.actions
         };
     }
 
     componentWillReceiveProps(props) {
         this.setState({
-            isLoading: props.isLoading,
             data: props.data,
-            columns: props.columns
+            columns: props.columns,
+            rowActions: props.rowActions,
+            actions: props.actions
         });
     }
-    componentDidMount() {
-        this.rows = this.state.data.map(item => (new UITableRow({key: item.id, data: item})));
+
+    getActions() {
+        let columns = [];
+        for (let i = 0; i < this.state.columns.length; i++) {
+            let column = this.state.columns[i];
+            columns.push(<th style={{width: column.width}} key={column.dataField}>{column.text}</th>)
+        }
+        return columns;
     }
 
-    getData(){
-        return this.state.data.map(item => <UITableRow key={item.id} data={item}>{JSON.stringify(item)}</UITableRow>)
+    getHeader() {
+        let columns = [];
+        for (let i = 0; i < this.state.columns.length; i++) {
+            let column = this.state.columns[i];
+            columns.push(<th style={{width: column.width}} key={column.dataField}>{column.text}</th>)
+        }
+        return columns;
     }
 
     render() {
@@ -34,19 +48,15 @@ export default class UITable extends Component {
                 <Table striped bordered hover size="sm">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        {this.getHeader()}
                     </tr>
                     </thead>
                     <tbody>
-
-                    {/*{this.state.data ? this.state.data.map(item=> item.username()) :*/}
-                    {/*    <tr colspan="4">No data</tr>*/}
-                    {/*}*/}
                     {
-                        this.getData()
+                        this.state.data.map(item => <UITableRow
+                            row={item}
+                            columns={this.state.columns}
+                            rowActions={this.state.rowActions}/>)
                     }
                     </tbody>
                 </Table></div>
