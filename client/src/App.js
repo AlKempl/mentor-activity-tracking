@@ -17,6 +17,7 @@ import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
 import Redirect from "react-router-dom/es/Redirect";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import PrivateRoute from "./components/system/PrivateRoute";
 
 const _ = require('lodash');
 
@@ -30,11 +31,13 @@ class App extends Component {
             showAdminBoard: false,
             showUserBoard: false,
             currentUser: undefined,
+            isLoggedIn: false
         };
     }
 
-    componentDidMount() {
-        const user = AuthService.getCurrentUser();
+    async componentDidMount() {
+        const user = await AuthService.getCurrentUser();
+        const isLoggedIn = await AuthService.isLoggedIn();
 
         if (user) {
             this.setState({
@@ -42,7 +45,16 @@ class App extends Component {
                 showModeratorBoard: user.roles.includes("ROLE_MENTOR") || user.roles.includes("ROLE_SENIOR"),
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
                 showUserBoard: user.roles.includes("ROLE_USER"),
+                isLoggedIn: isLoggedIn
             });
+        }else{
+            this.state = {
+                showModeratorBoard: false,
+                showAdminBoard: false,
+                showUserBoard: false,
+                currentUser: undefined,
+                isLoggedIn: isLoggedIn
+            };
         }
     }
 
@@ -57,7 +69,7 @@ class App extends Component {
     }
 
     render() {
-        const {currentUser, showModeratorBoard, showAdminBoard, showUserBoard} = this.state;
+        const {currentUser, showModeratorBoard, showAdminBoard, showUserBoard, isLoggedIn} = this.state;
         return (
             <div className="App">
                 <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
@@ -89,7 +101,7 @@ class App extends Component {
                         </Nav>
 
                             {currentUser ? (
-                                <Nav pullRight>
+                                <Nav>
                                     <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                                         <NavDropdown.Divider/>
@@ -97,7 +109,7 @@ class App extends Component {
                                     </NavDropdown>
                                 </Nav>
                             ) : (
-                                <Nav pullRight>
+                                <Nav>
                                         <LinkContainer to="/login">
                                             <Nav.Link>Login</Nav.Link>
                                         </LinkContainer>
@@ -112,10 +124,10 @@ class App extends Component {
                     <Route exact path={["/", "/home"]}><Home/></Route>
                     <Route exact path="/login"> {currentUser ? <Redirect to="/"/> : <Login/>}</Route>
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
-                    <Route exact path="/profile">{(currentUser)? <Profile/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/user">{(currentUser && showUserBoard)? <BoardUser/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/mod">{(currentUser && showModeratorBoard)? <BoardModerator/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/admin">{(currentUser && showAdminBoard)? <BoardAdmin/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/profile"> { <Profile/> }</Route>
+                    <Route exact path="/user">{showUserBoard? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/mod">{( showModeratorBoard)? <BoardModerator/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/admin">{( showAdminBoard)? <BoardAdmin/> : <Redirect to="/"/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>

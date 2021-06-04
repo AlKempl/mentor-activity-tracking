@@ -32,7 +32,11 @@ class AuthService {
 
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));
+    }
 
+    isLoggedIn() {
+        let user = this.getCurrentUser();
+        return !!user && !!user.accessToken;
     }
 }
 
