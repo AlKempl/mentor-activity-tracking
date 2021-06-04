@@ -81,7 +81,7 @@ export default class AdminBlocksComponent extends Component {
                         data={this.state.blocks_content}
                         columns={this.columns}
                         cellEdit={cellEditFactory({mode: 'click', blurToSave: true})}
-                        noDataIndication="Table is Empty"
+                        noDataIndication="UITable is Empty"
                     />
                 </div>
             </Jumbotron>

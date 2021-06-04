@@ -1,14 +1,11 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 
 import AdminUsersService from "../services/admin.users.service";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory, {Type} from "react-bootstrap-table2-editor";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import UITable from "./ui/UITable";
 
 export default class AdminUsersComponent extends Component {
-    columns;
-
     constructor(props) {
         super(props);
 
@@ -34,7 +31,7 @@ export default class AdminUsersComponent extends Component {
                 dataField: 'enabled',
                 text: 'Enabled',
                 editor: {
-                    type: Type.SELECT,
+                    type: null,
                     options: [{
                         value: '0',
                         label: 'Disabled'
@@ -46,12 +43,12 @@ export default class AdminUsersComponent extends Component {
             }];
 
         this.state = {
-            users_content: []
+            users_content: [],
         };
     }
 
-    componentDidMount() {
-        AdminUsersService.list().then(
+    async componentDidMount() {
+        await AdminUsersService.list().then(
             response => {
                 this.setState({
                     users_content: response.data.users
@@ -73,15 +70,7 @@ export default class AdminUsersComponent extends Component {
     render() {
         return (
             <Jumbotron>
-                <div className="container">
-                    <BootstrapTable
-                        keyField='id'
-                        data={this.state.users_content}
-                        columns={this.columns}
-                        cellEdit={cellEditFactory({mode: 'click', blurToSave: true})}
-                        noDataIndication="Table is Empty"
-                    />
-                </div>
+                <div>{JSON.stringify(this.state.users_content)}</div>
             </Jumbotron>
         );
     }
