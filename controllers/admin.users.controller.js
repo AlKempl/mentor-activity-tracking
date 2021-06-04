@@ -4,7 +4,7 @@ const User = db.user;
 const Role = db.role;
 
 exports.list = (req, res) => {
-    User.findAll({include: [Role]}).then(users => {
+    User.findAll({attributes: { exclude: ['password'] }, include: [Role]}).then(users => {
         res.status(200).send({
             users: users
         });
