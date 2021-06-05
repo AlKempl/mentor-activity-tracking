@@ -30,14 +30,14 @@ export default class AdminUsersComponent extends Component {
             dataField: 'enabled',
             text: 'Enabled',
             width: null
+        }, {
+            dataField: null,
+            text: 'Actions',
+            width: null,
+            actions:['edit_btn', 'del_btn']
         }];
 
-        let actions = {
-            create: {formPath:'/admin'},
-            update: {},
-            delete: {},
-            switch: {}
-        }
+        let actions = ['add_btn'];
 
         this.state = {
             users_content: [],
