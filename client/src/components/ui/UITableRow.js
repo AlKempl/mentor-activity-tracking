@@ -1,4 +1,15 @@
 import React, {Component} from "react";
+import UIModalCell from './UIModalCell'
+import {InfoCircle, XCircle} from 'react-bootstrap-icons';
+import Table from "react-bootstrap/Table";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import {Form} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import UserForm from "../crud/UserForm";
+import DelUserForm from "../crud/DelUserForm";
 
 export default class UITableRow extends Component {
 
@@ -8,6 +19,8 @@ export default class UITableRow extends Component {
             row: props.row,
             columns: props.columns
         };
+        this.delItem = this.delItem.bind(this);
+
     }
 
     componentWillReceiveProps(props) {
@@ -17,13 +30,42 @@ export default class UITableRow extends Component {
         });
     }
 
+    delItem(e){
+        console.log('del', e.target.id)
+    }
+
     getRow(item) {
         let cells = [];
         for (let i = 0; i < this.state.columns.length; i++) {
+            let action_cell = []
+
             let column = this.state.columns[i];
             if (item.hasOwnProperty(column.dataField)) {
-                cells.push(<td key={item.id + "-" + column}>{item[column.dataField]}</td>)
+                cells.push(<td key={item.id + "-" + column.dataField}>{item[column.dataField]}</td>)
+            } else if (column.dataField == null){
+                if(column.actions.hasOwnProperty('edit_btn')) {
+                    let cellValue = <InfoCircle color="royalblue" size={24}/>;
+                    action_cell.push(
+                        <Col><UIModalCell
+                            cellValue={cellValue}
+                            bodyValue={column.actions.edit_btn.bodyValue(item)}
+                            title={column.actions.edit_btn.title(item)}/></Col>
+                    )
+                }
+
+                if (column.actions.hasOwnProperty('del_btn')) {
+                    let cellValue = <XCircle color="royalblue" size={24}/>;
+                    action_cell.push(
+                        <Col><UIModalCell
+                            cellValue={cellValue}
+                            bodyValue={column.actions.del_btn.bodyValue(item)}
+                            title={column.actions.del_btn.title(item)}/></Col>
+                    )
+                }
             }
+
+            if(action_cell.length > 0 )
+                cells.push(<td><Row>{action_cell}</Row></td>)
         }
         return cells;
     }
