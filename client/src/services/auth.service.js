@@ -41,7 +41,25 @@ class AuthService {
 
     checkLevel(level) {
         let user = this.getCurrentUser();
-        return this.isLoggedIn() && user.roles.includes(level);
+        let middle = false;
+
+        switch (level) {
+            case 'ROLE_ADMIN':
+                middle = user.roles.includes(level);
+                break;
+            case 'ROLE_MENTOR':
+            case 'ROLE_SENIOR':
+                middle = user.roles.includes(level)
+                    || user.roles.includes('ROLE_ADMIN');
+                break;
+            case 'ROLE_USER':
+                middle = user.roles.includes(level)
+                    || user.roles.includes('ROLE_MENTOR')
+                    || user.roles.includes('ROLE_SENIOR')
+                    || user.roles.includes('ROLE_ADMIN');
+                break;
+        }
+        return this.isLoggedIn() && middle;
     }
 }
 
