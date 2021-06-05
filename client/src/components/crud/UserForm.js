@@ -9,9 +9,10 @@ export default class UserForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {loading: false, new:props.new, ...props.user};
+        this.state = {loading: false, new: props.new, ...props.user};
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeDisplayname = this.onChangeDisplayname.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeEnabled = this.onChangeEnabled.bind(this);
         this.onChangeRole = this.onChangeRole.bind(this);
@@ -29,6 +30,12 @@ export default class UserForm extends React.Component {
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
+        });
+    }
+
+    onChangeDisplayname(e) {
+        this.setState({
+            displayname: e.target.value
         });
     }
 
@@ -71,8 +78,8 @@ export default class UserForm extends React.Component {
             loading: true
         });
 
-        if(this.state.new){
-            AdminUsersService.add(this.state.username, this.state.password, this.state.email, this.state.roles, this.state.enabled).then(
+        if (this.state.new) {
+            AdminUsersService.add(this.state.username, this.state.displayname, this.state.password, this.state.email, this.state.roles, this.state.enabled).then(
                 () => {
                     window.location.href = '/admin/users';
                 },
@@ -90,8 +97,8 @@ export default class UserForm extends React.Component {
                     });
                 }
             );
-        }else{
-            AdminUsersService.updateOne(this.state.id, this.state.email, this.state.roles, this.state.enabled).then(
+        } else {
+            AdminUsersService.updateOne(this.state.id, this.state.displayname, this.state.email, this.state.roles, this.state.enabled).then(
                 () => {
                     window.location.href = '/admin/users';
                 },
@@ -132,18 +139,27 @@ export default class UserForm extends React.Component {
                             onChange={this.onChangeUsername}
                             value={user.username}/>
                     </Form.Group>
-
-                    <Form.Group as={Col} controlId="email">
-                        <Form.Label>Email</Form.Label>
+                    <Form.Group as={Col} controlId="displayname">
+                        <Form.Label>Display name</Form.Label>
                         <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                            value={user.email}
-                            onChange={this.onChangeEmail}
-                        />
+                            type="text"
+                            placeholder="Enter displayname"
+                            onChange={this.onChangeDisplayname}
+                            value={user.displayname}/>
                     </Form.Group>
+
                 </Row>
-                {this.state.new && <Row className="mb-3">
+                <Row>
+                <Form.Group as={Col} controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        value={user.email}
+                        onChange={this.onChangeEmail}
+                    />
+                </Form.Group>
+                {this.state.new &&
                     <Form.Group as={Col} controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
@@ -153,8 +169,8 @@ export default class UserForm extends React.Component {
                             onChange={this.onChangePassword}
                             value={user.password}/>
                     </Form.Group>
-                </Row>}
-
+                }
+                </Row>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="rights">
                         <Form.Label>Rights</Form.Label>

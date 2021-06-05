@@ -6,9 +6,10 @@ var bcrypt = require("bcrypt");
 require('dotenv').config()
 const Op = db.Sequelize.Op;
 
-function createUser(username, email, password = '', role = 'user') {
+function createUser(username, displayname, email, password = '', role = 'user') {
     User.create({
         username: username,
+        displayname: displayname,
         email: email,
         password: bcrypt.hashSync(password, 8)
     }).then(user => {
@@ -67,14 +68,14 @@ function initial() {
     });
 
     let demo_users = [
-        {username: 'alkempl', email: 'alkempled@gmail.com', password: process.env.DEMO_PASS, role: 'admin'},
-        {username: 'unlocosenior', email: 'unlocosenior@example.com', password: process.env.DEMO_PASS, role: 'senior'},
-        {username: 'unlocomentor', email: 'unlocomentor@example.com', password: process.env.DEMO_PASS, role: 'mentor'},
-        {username: 'dr.mysterio', email: 'dr.mysterio@example.com', password: process.env.DEMO_PASS, role: 'user'},
+        {username: 'alkempl', displayname: 'Alexander Kempl', email: 'alkempled@gmail.com', password: process.env.DEMO_PASS, role: 'admin'},
+        {username: 'unlocosenior', displayname: 'Mr. Un Loco Senior', email: 'unlocosenior@example.com', password: process.env.DEMO_PASS, role: 'senior'},
+        {username: 'unlocomentor', displayname:'Mr. Un Loco Mentor', email: 'unlocomentor@example.com', password: process.env.DEMO_PASS, role: 'mentor'},
+        {username: 'dr.mysterio', displayname:'Dr. John Mysterio', email: 'dr.mysterio@example.com', password: process.env.DEMO_PASS, role: 'user'},
     ];
 
     demo_users.forEach(function (user) {
-        createUser(user.username, user.email, user.password, user.role);
+        createUser(user.username, user.displayname, user.email, user.password, user.role);
     });
 
     let demo_blocks = [

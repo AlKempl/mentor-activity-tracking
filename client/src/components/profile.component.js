@@ -8,6 +8,7 @@ import CardDeck from "react-bootstrap/CardDeck";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import Button from "react-bootstrap/cjs/Button";
 
 require('dotenv').config()
 
@@ -15,7 +16,7 @@ export default class Profile extends Component {
 
     constructor(props) {
         super(props);
-        console.log('blah')
+        //console.log('blah')
 
         this.state = {
             currentUser: AuthService.getCurrentUser(),
@@ -80,6 +81,10 @@ export default class Profile extends Component {
                             <Card.Body style={{textAlign: "left"}}>
                                 <ListGroup className="list-group-flush">
                                     <ListGroupItem>
+                                        <strong>Display name:</strong>{" "}
+                                        {currentUser.displayname}
+                                    </ListGroupItem>
+                                    <ListGroupItem>
                                         <strong>Username:</strong>{" "}
                                         {currentUser.username}
                                     </ListGroupItem>
@@ -91,6 +96,23 @@ export default class Profile extends Component {
                                         <strong>Authorities: </strong>
                                         {currentUser.roles &&
                                         currentUser.roles.join(', ')}
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </Card.Body>
+                        </Card>
+                        <Card style={{width: '30rem'}}>
+                            <Card.Header>
+                                <h3><strong>Additional</strong></h3>
+                            </Card.Header>
+                            <Card.Body style={{textAlign: "left"}}>
+                                <ListGroup className="list-group-flush">
+                                    <ListGroupItem>
+                                        <strong>Change password</strong><br/>
+
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        <strong>Delete account</strong><br/>
+                                        <Button variant={"danger"}>Delete</Button>
                                     </ListGroupItem>
                                 </ListGroup>
                             </Card.Body>
