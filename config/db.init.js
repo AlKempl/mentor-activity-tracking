@@ -1,31 +1,10 @@
 const db = require("../models");
 const Role = db.role;
 const User = db.user;
+const Block = db.block;
 var bcrypt = require("bcrypt");
 require('dotenv').config()
 const Op = db.Sequelize.Op;
-
-function createRoles() {
-    Role.create({
-        id: 1,
-        name: "user"
-    });
-
-    Role.create({
-        id: 2,
-        name: "mentor"
-    });
-
-    Role.create({
-        id: 3,
-        name: "senior"
-    });
-
-    Role.create({
-        id: 4,
-        name: "admin"
-    });
-}
 
 function createUser(username, email, password = '', role = 'user') {
     User.create({
@@ -46,22 +25,73 @@ function createUser(username, email, password = '', role = 'user') {
         })
     })
         .catch(err => {
-            console.log('db.init.js', 'something went wrong')
+            console.log('db.init.js', 'user', 'something went wrong')
+        });
+}
+
+function createBlock(name, description='', active=1) {
+    Block.create({
+        name: name,
+        description: description,
+        active: active
+    }).then(() => {
+        console.log('Block', name, 'created successfully')
+    })
+        .catch(err => {
+            console.log('db.init.js', 'block', 'something went wrong')
+        });
+}
+
+function createRole(id, name) {
+    Role.create({
+        id: id,
+        name: name,
+    }).then(() => {
+        console.log('Role', name, 'created successfully')
+    })
+        .catch(err => {
+            console.log('db.init.js', 'role', 'something went wrong')
         });
 }
 
 function initial() {
-    createRoles();
+    let demo_roles = [
+        {id: 1, name: 'user'},
+        {id: 2, name: 'mentor'},
+        {id: 3, name: 'senior'},
+        {id: 4, name: 'admin'},
+    ];
+
+    demo_roles.forEach(function (role) {
+        createRole(role.id, role.name);
+    });
 
     let demo_users = [
         {username: 'alkempl', email: 'alkempled@gmail.com', password: process.env.DEMO_PASS, role: 'admin'},
         {username: 'unlocosenior', email: 'unlocosenior@example.com', password: process.env.DEMO_PASS, role: 'senior'},
         {username: 'unlocomentor', email: 'unlocomentor@example.com', password: process.env.DEMO_PASS, role: 'mentor'},
         {username: 'dr.mysterio', email: 'dr.mysterio@example.com', password: process.env.DEMO_PASS, role: 'user'},
-        ];
+    ];
 
     demo_users.forEach(function (user) {
         createUser(user.username, user.email, user.password, user.role);
+    });
+
+    let demo_blocks = [
+        {name: 'DWH'},
+        {name: 'GP+NoGP'},
+        {name: 'SAP'},
+        {name: 'SQL'},
+        {name: 'Tableau'},
+        {name: 'Zeppelin'},
+        {name: 'Business analysis'},
+        {name: 'Tool selection & data profiling'},
+        {name: 'Report publishing'},
+        {name: 'Python'},
+    ];
+
+    demo_blocks.forEach(function (block) {
+        createBlock(block.name);
     })
 }
 
