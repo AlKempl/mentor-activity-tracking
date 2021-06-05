@@ -49,6 +49,11 @@ module.exports = (sequelize, Sequelize) => {
         },
 
         status: {
+            type: dt.INTEGER,
+            defaultValue: 0
+        },
+
+        lesson_date: {
             type: dt.DATE,
             defaultValue: dt.NOW
         }
