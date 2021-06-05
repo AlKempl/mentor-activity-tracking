@@ -30,11 +30,13 @@ class App extends Component {
             showAdminBoard: false,
             showUserBoard: false,
             currentUser: undefined,
+            isLoggedIn: false
         };
     }
 
-    componentDidMount() {
-        const user = AuthService.getCurrentUser();
+    async componentDidMount() {
+        const user = await AuthService.getCurrentUser();
+        const isLoggedIn = await AuthService.isLoggedIn();
 
         if (user) {
             this.setState({
@@ -42,7 +44,16 @@ class App extends Component {
                 showModeratorBoard: user.roles.includes("ROLE_MENTOR") || user.roles.includes("ROLE_SENIOR"),
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
                 showUserBoard: user.roles.includes("ROLE_USER"),
+                isLoggedIn: isLoggedIn
             });
+        } else {
+            this.state = {
+                showModeratorBoard: false,
+                showAdminBoard: false,
+                showUserBoard: false,
+                currentUser: undefined,
+                isLoggedIn: isLoggedIn
+            };
         }
     }
 
@@ -57,7 +68,7 @@ class App extends Component {
     }
 
     render() {
-        const {currentUser, showModeratorBoard, showAdminBoard, showUserBoard} = this.state;
+        const {currentUser, showModeratorBoard, showAdminBoard, showUserBoard, isLoggedIn} = this.state;
         return (
             <div className="App">
                 <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
@@ -88,34 +99,34 @@ class App extends Component {
                             )}
                         </Nav>
 
-                            {currentUser ? (
-                                <Nav pullRight>
-                                    <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                        <NavDropdown.Divider/>
-                                        <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
-                                    </NavDropdown>
-                                </Nav>
-                            ) : (
-                                <Nav pullRight>
-                                        <LinkContainer to="/login">
-                                            <Nav.Link>Login</Nav.Link>
-                                        </LinkContainer>
-                                        <LinkContainer to="/register">
-                                            <Nav.Link>Sign Up</Nav.Link>
-                                        </LinkContainer>
-                                </Nav>
-                            )}
+                        {currentUser ? (
+                            <Nav>
+                                <NavDropdown title={currentUser.username} id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                                    <NavDropdown.Divider/>
+                                    <NavDropdown.Item href="/login" onClick={this.logOut}>Logout</NavDropdown.Item>
+                                </NavDropdown>
+                            </Nav>
+                        ) : (
+                            <Nav>
+                                <LinkContainer to="/login">
+                                    <Nav.Link>Login</Nav.Link>
+                                </LinkContainer>
+                                <LinkContainer to="/register">
+                                    <Nav.Link>Sign Up</Nav.Link>
+                                </LinkContainer>
+                            </Nav>
+                        )}
                     </Navbar.Collapse>
                 </Navbar>
                 <Switch>
                     <Route exact path={["/", "/home"]}><Home/></Route>
                     <Route exact path="/login"> {currentUser ? <Redirect to="/"/> : <Login/>}</Route>
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
-                    <Route exact path="/profile"><Profile/></Route>
-                    <Route exact path="/user"><BoardUser/></Route>
-                    <Route exact path="/mod"><BoardModerator/></Route>
-                    <Route exact path="/admin"><BoardAdmin/></Route>
+                    <Route exact path="/profile"> {<Profile/>}</Route>
+                    <Route exact path="/user">{showUserBoard ? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/mod">{(showModeratorBoard) ? <BoardModerator/> : <Redirect to="/"/>}</Route>
+                    <Route strict path="/admin">{ <BoardAdmin/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>

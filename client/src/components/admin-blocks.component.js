@@ -2,61 +2,89 @@ import React, {Component} from "react";
 
 import AdminBlocksService from "../services/admin.blocks.service";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory, {Type} from "react-bootstrap-table2-editor";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import UITable from "./ui/UITable";
+import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import UserForm from "./crud/UserForm";
+import DelBlockForm from "./crud/DelBlockForm";
+import BlockForm from "./crud/BlockForm";
 
 export default class AdminBlocksComponent extends Component {
-    columns;
-
     constructor(props) {
         super(props);
 
-        this.columns = [{
+        let columns = [{
             dataField: 'id',
-            text: 'Block ID'
+            text: 'Block ID',
+            width: null
         }, {
             dataField: 'name',
-            text: 'Name'
+            text: 'Name',
+            width: null
         }, {
             dataField: 'description',
-            text: 'Description'
+            text: 'Description',
+            width: null
         }, {
             dataField: 'createdAt',
-            text: 'Created At'
+            text: 'Created At',
+            width: null
         }, {
             dataField: 'updatedAt',
             text: 'Updated At',
-        }
-            // , {
-            //     dataField: 'roles[].name',
-            //     text: 'Roles'
-            // }
-            , {
-                dataField: 'active',
-                text: 'Active',
-                editor: {
-                    type: Type.SELECT,
-                    options: [{
-                        value: '0',
-                        label: 'No'
-                    }, {
-                        value: '1',
-                        label: 'Yes'
-                    }]
+            width: null
+        }, {
+            dataField: 'active',
+            text: 'Active',
+            width: null
+        }, {
+            dataField: null,
+            text: 'Actions',
+            width: null,
+            actions: {
+                edit_btn: {
+                    title: (block) => {
+                        return 'Edit: ' + block.name;
+                    },
+                    bodyValue: (block) => {
+                        return (<div><BlockForm block={block} new={false}/></div>);
+                    }
+                },
+                del_btn: {
+                    title: (block) => {
+                        return 'Delete: ' + block.name;
+                    },
+                    bodyValue: (block) => {
+                        return (<div><DelBlockForm block={block}/></div>);
+                    }
                 }
-            }];
+            }
+        }];
+
+        let new_block = {name: '', description: '', active: 1, };
+        let actions = {
+            add_btn: {
+                cellValue: <Button variant="primary">Add</Button>,
+                title: 'Add new block',
+                bodyValue: <div><BlockForm block={new_block} new={true}/></div>
+            }
+        };
 
         this.state = {
-            blocks_content: []
+            blocks_content: [],
+            columns: columns,
+            isLoading: true,
+            actions: actions
         };
     }
 
-    componentDidMount() {
-        AdminBlocksService.list().then(
+    async componentDidMount() {
+        await AdminBlocksService.list().then(
             response => {
                 this.setState({
-                    blocks_content: response.data.blocks
+                    blocks_content: response.data.blocks,
+                    isLoading: false
                 });
             },
             error => {
@@ -66,7 +94,8 @@ export default class AdminBlocksComponent extends Component {
                             error.response.data &&
                             error.response.data.message) ||
                         error.message ||
-                        error.toString()
+                        error.toString(),
+                    isLoading: false
                 });
             }
         );
@@ -75,15 +104,18 @@ export default class AdminBlocksComponent extends Component {
     render() {
         return (
             <Jumbotron>
-                <div className="container">
-                    <BootstrapTable
-                        keyField='id'
-                        data={this.state.blocks_content}
-                        columns={this.columns}
-                        cellEdit={cellEditFactory({mode: 'click', blurToSave: true})}
-                        noDataIndication="Table is Empty"
-                    />
-                </div>
+                {
+                    this.state.isLoading ?
+                        <div>
+                            <Spinner animation="border"/>
+                        </div>
+                        :
+                        <UITable
+                            columns={this.state.columns}
+                            data={this.state.blocks_content}
+                            actions={this.state.actions}
+                        />
+                }
             </Jumbotron>
         );
     }
