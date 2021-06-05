@@ -17,6 +17,7 @@ import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
 import Redirect from "react-router-dom/es/Redirect";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Stats from "./components/stats.component";
 
 const _ = require('lodash');
 
@@ -37,13 +38,16 @@ class App extends Component {
     async componentDidMount() {
         const user = await AuthService.getCurrentUser();
         const isLoggedIn = await AuthService.isLoggedIn();
+        const checkLevelAdmin = await AuthService.checkLevel("ROLE_ADMIN");
+        const checkLevelModer = await AuthService.checkLevel("ROLE_MENTOR")
+            || await AuthService.checkLevel("ROLE_SENIOR");
 
         if (user) {
             this.setState({
                 currentUser: user,
-                showModeratorBoard: user.roles.includes("ROLE_MENTOR") || user.roles.includes("ROLE_SENIOR"),
-                showAdminBoard: user.roles.includes("ROLE_ADMIN"),
-                showUserBoard: user.roles.includes("ROLE_USER"),
+                showModeratorBoard: checkLevelModer,
+                showAdminBoard: checkLevelAdmin,
+                showUserBoard: isLoggedIn,
                 isLoggedIn: isLoggedIn
             });
         } else {
@@ -80,6 +84,12 @@ class App extends Component {
                     <Navbar.Toggle/>
                     <Navbar.Collapse className="justify-content-end">
                         <Nav activeKey={window.location.pathname}>
+                            {showUserBoard && (
+                                <LinkContainer to="/stats">
+                                    <Nav.Link>Stats</Nav.Link>
+                                </LinkContainer>
+                            )}
+
                             {showUserBoard && (
                                 <LinkContainer to="/user">
                                     <Nav.Link>User Board</Nav.Link>
@@ -125,8 +135,9 @@ class App extends Component {
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
                     <Route exact path="/profile"> {<Profile/>}</Route>
                     <Route exact path="/user">{showUserBoard ? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/stats">{showUserBoard ? <Stats/> : <Redirect to="/"/>}</Route>
                     <Route exact path="/mod">{(showModeratorBoard) ? <BoardModerator/> : <Redirect to="/"/>}</Route>
-                    <Route strict path="/admin">{ <BoardAdmin/>}</Route>
+                    <Route strict path="/admin">{<BoardAdmin/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>

@@ -11,12 +11,14 @@ db.sequelize = sequelize;
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.block = require("../models/block.model.js")(sequelize, Sequelize);
+db.lesson = require("../models/lesson.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
     through: "user_roles",
     foreignKey: "roleId",
     otherKey: "userId"
 });
+
 db.user.belongsToMany(db.role, {
     through: "user_roles",
     foreignKey: "userId",

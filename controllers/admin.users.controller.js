@@ -9,7 +9,7 @@ exports.list = async (req, res) => {
     let users = await User.findAll({attributes: {exclude: ['password']}, include: [Role]});
     let result = [];
 
-    console.log(users)
+    //console.log(users)
     for (let i = 0; i < users.length - 1; i++) {
         const user = users[i];
         const roles = await user.getRoles();
@@ -17,6 +17,7 @@ exports.list = async (req, res) => {
         const new_user = {
             id: user.id,
             username: user.username,
+            displayname: user.displayname,
             email: user.email,
             enabled: user.enabled,
             createdAt: user.createdAt,
@@ -51,6 +52,7 @@ exports.addNew = (req, res) => {
     User.create({
         username: req.body.username,
         email: req.body.email,
+        displayname: req.body.displayname,
         password: bcrypt.hashSync(req.body.password ?? process.env.DEMO_PASS, 8),
         enabled: req.body.enabled
     })
@@ -109,7 +111,11 @@ exports.switchEnabled = (req, res) => {
 
 exports.updateOne = (req, res) => {
 
-    User.update({email: req.body.email, enabled: req.body.enabled}, {
+    User.update({
+        email: req.body.email,
+        enabled: req.body.enabled,
+        displayname: req.body.displayname
+    }, {
         where: {
             id: req.params.id
         }

@@ -22,6 +22,10 @@ export default class AdminUsersComponent extends Component {
             text: 'Username',
             width: null
         }, {
+            dataField: 'displayname',
+            text: 'Display name',
+            width: null
+        }, {
             dataField: 'createdAt',
             text: 'Created At',
             width: null
@@ -57,7 +61,7 @@ export default class AdminUsersComponent extends Component {
             }
         }];
 
-        let new_user = {username: '', email: '', roles: [1], enabled: 1, password: ''};
+        let new_user = {username: '', displayname:'', email: '', roles: [1], enabled: 1, password: ''};
         let actions = {
             add_btn: {
                 cellValue: <Button variant="primary">Add</Button>,

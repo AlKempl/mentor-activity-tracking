@@ -68,7 +68,7 @@ exports.switchActive = (req, res) => {
 
 exports.updateOne = (req, res) => {
 
-    console.log(req.body)
+    //console.log(req.body)
     Block.update({
         name: req.body.name,
         description: req.body.description,
