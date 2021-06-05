@@ -27,12 +27,7 @@ export default class AdminBlocksComponent extends Component {
         }, {
             dataField: 'updatedAt',
             text: 'Updated At',
-        }
-            // , {
-            //     dataField: 'roles[].name',
-            //     text: 'Roles'
-            // }
-            , {
+        }, {
                 dataField: 'active',
                 text: 'Active',
                 editor: {
