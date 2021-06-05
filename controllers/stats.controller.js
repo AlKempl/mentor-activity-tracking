@@ -4,7 +4,9 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const Block = db.block;
 const Users = db.user;
+const Lessons = db.lesson;
 const faker = require('faker');
+const _ = require('lodash');
 
 faker.locale = "ru";
 
@@ -44,7 +46,22 @@ exports.getData = async (req, res) => {
 
     let users = await Users.findAll();
 
+    let data = await Lessons.findAll({attributes: {exclude: ['password']}})
+    let grouped = _.groupBy(data, 'mentorId');
+    // data = data.map();
+
     //console.log(users)
+
+    let persons = generateFakeUserData(columns, users);
+
+    res.status(200).send({stats: grouped});
+};
+
+exports.getFakeData = async (req, res) => {
+
+    let columns = await Block.findAll();
+
+    let users = await Users.findAll();
 
     let persons = generateFakeUserData(columns, users);
 
