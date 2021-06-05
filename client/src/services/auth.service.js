@@ -38,6 +38,11 @@ class AuthService {
         let user = this.getCurrentUser();
         return !!user && !!user.accessToken;
     }
+
+    checkLevel(level) {
+        let user = this.getCurrentUser();
+        return this.isLoggedIn() && user.roles.includes(level);
+    }
 }
 
 export default new AuthService();

@@ -126,7 +126,7 @@ class App extends Component {
                     <Route exact path="/profile"> {<Profile/>}</Route>
                     <Route exact path="/user">{showUserBoard ? <BoardUser/> : <Redirect to="/"/>}</Route>
                     <Route exact path="/mod">{(showModeratorBoard) ? <BoardModerator/> : <Redirect to="/"/>}</Route>
-                    <Route exact path="/admin">{(showAdminBoard) ? <BoardAdmin/> : <Redirect to="/"/>}</Route>
+                    <Route strict path="/admin">{ <BoardAdmin/>}</Route>
                     {/* Finally, catch all unmatched routes */}
                     <Route>
                         <NotFound/>
