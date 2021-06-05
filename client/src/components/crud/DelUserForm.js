@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AdminUsersService from "../../services/admin.users.service";
 
-export default class UserForm extends React.Component {
+export default class DelUserForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -52,8 +52,6 @@ export default class UserForm extends React.Component {
     }
 
     render() {
-        let user = this.state;
-        // console.log(user)
         return (
             <Form onSubmit={e => this.handleDelete(e)}>
                 <p>Are you sure that you want to delete user <b>{this.state.username}</b> ({this.state.id})</p>

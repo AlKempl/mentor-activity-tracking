@@ -127,31 +127,3 @@ exports.updateOne = (req, res) => {
             res.status(500).send({message: err.message});
         })
 }
-
-// User.update({email: req.body.email, enabled: req.body.enabled}, {
-//     where: {
-//         id: req.params.id
-//     }
-// }).then(user => {
-//     if (req.body.roles) {
-//         Role.findAll({
-//             where: {
-//                 id: {
-//                     [sequelize.Op.or]: req.body.roles
-//                 }
-//             }
-//         }).then(roles => {
-//             user.setRoles(roles).then(() => {
-//                 res.send({message: "User updated"});
-//             });
-//         });
-//     } else {
-//         user.setRoles(roles).then(() => {
-//             res.send({message: "User updated"});
-//         });
-//     }
-// }).catch(err => {
-//     res.status(500).send({message: err.message});
-// });
-
-
