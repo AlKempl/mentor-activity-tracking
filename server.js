@@ -61,7 +61,7 @@ app.use('/api/stats', require('./routes/stats.routes'));
 app.use('/api/profile', require('./routes/notimplemented.routes'));
 
 // authorised moder
-app.use('/api/mod/lessons', require('./routes/notimplemented.routes'));
+app.use('/api/mod/lessons', require('./routes/mod.lessons.routes'));
 
 // authorised admin
 app.use('/api/admin/users', require('./routes/admin.users.routes'));
