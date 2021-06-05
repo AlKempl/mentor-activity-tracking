@@ -1,10 +1,13 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 
 import AdminUsersService from "../services/admin.users.service";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import Jumbotron from "react-bootstrap/Jumbotron";
 import UITable from "./ui/UITable";
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import UserForm from "./crud/UserForm";
+import DelUserForm from "./crud/DelUserForm";
 
 export default class AdminUsersComponent extends Component {
     constructor(props) {
@@ -34,10 +37,34 @@ export default class AdminUsersComponent extends Component {
             dataField: null,
             text: 'Actions',
             width: null,
-            actions:['edit_btn', 'del_btn']
+            actions: {
+                edit_btn: {
+                    title: (item) => {
+                        return 'Edit: ' + item.username;
+                    },
+                    bodyValue: (item) => {
+                        return (<div><UserForm user={item} new={false}/></div>);
+                    }
+                },
+                del_btn: {
+                    title: (item) => {
+                        return 'Delete: ' + item.username;
+                    },
+                    bodyValue: (item) => {
+                        return (<div><DelUserForm user={item}/></div>);
+                    }
+                }
+            }
         }];
 
-        let actions = ['add_btn'];
+        let new_user = {username: '', email: '', roles: [1], enabled: 1, password: ''};
+        let actions = {
+            add_btn: {
+                cellValue: <Button variant="primary">Add</Button>,
+                title: 'Add new user',
+                bodyValue: <div><UserForm user={new_user} new={true}/></div>
+            }
+        };
 
         this.state = {
             users_content: [],
