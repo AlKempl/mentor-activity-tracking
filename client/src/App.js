@@ -17,6 +17,7 @@ import {Route, Switch} from "react-router-dom";
 import NotFound from "./components/notfound.component";
 import Redirect from "react-router-dom/es/Redirect";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Stats from "./components/stats.component";
 
 const _ = require('lodash');
 
@@ -134,6 +135,7 @@ class App extends Component {
                     <Route exact path="/register"> {currentUser ? <Redirect to="/"/> : <Register/>}</Route>
                     <Route exact path="/profile"> {<Profile/>}</Route>
                     <Route exact path="/user">{showUserBoard ? <BoardUser/> : <Redirect to="/"/>}</Route>
+                    <Route exact path="/stats">{showUserBoard ? <Stats/> : <Redirect to="/"/>}</Route>
                     <Route exact path="/mod">{(showModeratorBoard) ? <BoardModerator/> : <Redirect to="/"/>}</Route>
                     <Route strict path="/admin">{<BoardAdmin/>}</Route>
                     {/* Finally, catch all unmatched routes */}

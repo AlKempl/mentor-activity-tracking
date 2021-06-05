@@ -57,7 +57,7 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/test', require('./routes/user.routes'));
 
 // authorised
-app.use('/api/stats', require('./routes/notimplemented.routes'));
+app.use('/api/stats', require('./routes/stats.routes'));
 app.use('/api/profile', require('./routes/notimplemented.routes'));
 
 // authorised moder
