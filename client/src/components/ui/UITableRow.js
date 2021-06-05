@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Form} from "react-bootstrap";
+import {Badge, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import UserForm from "../crud/UserForm";
@@ -19,7 +19,6 @@ export default class UITableRow extends Component {
             row: props.row,
             columns: props.columns
         };
-        this.delItem = this.delItem.bind(this);
 
     }
 
@@ -30,18 +29,25 @@ export default class UITableRow extends Component {
         });
     }
 
-    delItem(e){
-        console.log('del', e.target.id)
-    }
-
     getRow(item) {
         let cells = [];
         for (let i = 0; i < this.state.columns.length; i++) {
             let action_cell = []
-
+            //console.log('item', item)
             let column = this.state.columns[i];
+            //console.log('column', column)
+
             if (item.hasOwnProperty(column.dataField)) {
-                cells.push(<td key={item.id + "-" + column.dataField}>{item[column.dataField]}</td>)
+                if(column.hasOwnProperty('visual')){
+                    //console.log('visual found')
+                    cells.push(
+                        // item.visual(item)
+                        // cells.push(<td key={item.id + "-" + column.dataField}>{item[column.dataField]}</td>)
+                            <td>{column.visual(column, item)}</td>
+                    )
+                }else{
+                    cells.push(<td key={item.id + "-" + column.dataField}>{item[column.dataField]}</td>)
+                }
             } else if (column.dataField == null){
                 if(column.actions.hasOwnProperty('edit_btn')) {
                     let cellValue = <InfoCircle color="royalblue" size={24}/>;
@@ -71,6 +77,7 @@ export default class UITableRow extends Component {
     }
 
     render() {
+        //console.log(this.state)
         return (
             <tr>
                 {this.getRow(this.state.row)}
