@@ -56,14 +56,14 @@ function createRole(id, name) {
         });
 }
 
-function createLesson(mentorId, blockId, student_name, lesson_date, status = 1) {
+async function createLesson(mentorId, blockId, student_name, lesson_date, status = 1) {
     Lesson.create({
         mentorId: mentorId,
         blockId: blockId,
         student_name: student_name,
         lesson_date: lesson_date,
         status: status
-    }).then(() => {
+    }).then(blah => {
         console.log('Lesson', mentorId, blockId, lesson_date, 'created successfully')
     })
         .catch(err => {
@@ -136,34 +136,34 @@ function initial() {
     })
 
     let demo_lessons = [
-        {mentorId:1, blockId:1, student_name:'Сергей Тихонов', lesson_date:"2021-06-05"},
-        {mentorId:1, blockId:2, student_name:'Игнатий Филиппов', lesson_date:"2021-06-04"},
-        {mentorId:1, blockId:3, student_name:'Таисия Степанова', lesson_date:"2021-06-02"},
-        {mentorId:1, blockId:3, student_name:'Алла Цветкова', lesson_date:"2021-06-04"},
-        {mentorId:1, blockId:4, student_name:'Людмила Воробьева', lesson_date:"2021-06-03"},
-        {mentorId:1, blockId:6, student_name:'Николай Сергеев', lesson_date:"2021-06-04"},
-        {mentorId:1, blockId:8, student_name:'Зоя Николаева', lesson_date:"2021-06-05"},
-        {mentorId:1, blockId:8, student_name:'Анжела Чернова', lesson_date:"2021-06-03"},
-        {mentorId:1, blockId:9, student_name:'Татьяна Ермакова', lesson_date:"2021-06-02"},
-        {mentorId:1, blockId:9, student_name:'Ольга Савина', lesson_date:"2021-06-04"},
-        {mentorId:1, blockId:9, student_name:'Евгения Архипова', lesson_date:"2021-06-03"},
+        {mentorId: 1, blockId: 1, student_name: 'Сергей Тихонов', lesson_date: "2021-06-05"},
+        {mentorId: 1, blockId: 2, student_name: 'Игнатий Филиппов', lesson_date: "2021-06-04"},
+        {mentorId: 1, blockId: 3, student_name: 'Таисия Степанова', lesson_date: "2021-06-02"},
+        {mentorId: 1, blockId: 3, student_name: 'Алла Цветкова', lesson_date: "2021-06-04"},
+        {mentorId: 1, blockId: 4, student_name: 'Людмила Воробьева', lesson_date: "2021-06-03"},
+        {mentorId: 1, blockId: 6, student_name: 'Николай Сергеев', lesson_date: "2021-06-04"},
+        {mentorId: 1, blockId: 8, student_name: 'Зоя Николаева', lesson_date: "2021-06-05"},
+        {mentorId: 1, blockId: 8, student_name: 'Анжела Чернова', lesson_date: "2021-06-03"},
+        {mentorId: 1, blockId: 9, student_name: 'Татьяна Ермакова', lesson_date: "2021-06-02"},
+        {mentorId: 1, blockId: 9, student_name: 'Ольга Савина', lesson_date: "2021-06-04"},
+        {mentorId: 1, blockId: 9, student_name: 'Евгения Архипова', lesson_date: "2021-06-03"},
 
-        {mentorId:2, blockId:2, student_name:'Елена Давыдова', lesson_date:"2021-06-03"},
-        {mentorId:2, blockId:2, student_name:'Игнатий Тарасов', lesson_date:"2021-06-02"},
-        {mentorId:2, blockId:3, student_name:'Анна Белоусова', lesson_date:"2021-06-03"},
-        {mentorId:2, blockId:4, student_name:'Анфиса Попова', lesson_date:"2021-06-04"},
-        {mentorId:2, blockId:5, student_name:'Римма Уварова', lesson_date:"2021-06-05"},
-        {mentorId:2, blockId:6, student_name:'Регина Богданова', lesson_date:"2021-06-04"},
+        {mentorId: 2, blockId: 2, student_name: 'Елена Давыдова', lesson_date: "2021-06-03"},
+        {mentorId: 2, blockId: 2, student_name: 'Игнатий Тарасов', lesson_date: "2021-06-02"},
+        {mentorId: 2, blockId: 3, student_name: 'Анна Белоусова', lesson_date: "2021-06-03"},
+        {mentorId: 2, blockId: 4, student_name: 'Анфиса Попова', lesson_date: "2021-06-04"},
+        {mentorId: 2, blockId: 5, student_name: 'Римма Уварова', lesson_date: "2021-06-05"},
+        {mentorId: 2, blockId: 6, student_name: 'Регина Богданова', lesson_date: "2021-06-04"},
 
-        {mentorId:3, blockId:1, student_name:'Мария Красильникова', lesson_date:"2021-06-05"},
-        {mentorId:3, blockId:1, student_name:'Иван Иванов', lesson_date:"2021-06-03"},
-        {mentorId:3, blockId:2, student_name:'Регина Шилова', lesson_date:"2021-06-04"},
-        {mentorId:3, blockId:3, student_name:'Ксения Шарапова', lesson_date:"2021-06-02"},
-        {mentorId:3, blockId:4, student_name:'Лука Анисимов', lesson_date:"2021-06-04"},
-        {mentorId:3, blockId:4, student_name:'Борис Дмитриев', lesson_date:"2021-06-03"},
-        {mentorId:3, blockId:5, student_name:'Дмитрий Самойлов', lesson_date:"2021-06-05"},
-        {mentorId:3, blockId:6, student_name:'Вячеслав Горбунов', lesson_date:"2021-06-03"},
-        {mentorId:3, blockId:7, student_name:'Олег Емельянов', lesson_date:"2021-06-04"},
+        {mentorId: 3, blockId: 1, student_name: 'Мария Красильникова', lesson_date: "2021-06-05"},
+        {mentorId: 3, blockId: 1, student_name: 'Иван Иванов', lesson_date: "2021-06-03"},
+        {mentorId: 3, blockId: 2, student_name: 'Регина Шилова', lesson_date: "2021-06-04"},
+        {mentorId: 3, blockId: 3, student_name: 'Ксения Шарапова', lesson_date: "2021-06-02"},
+        {mentorId: 3, blockId: 4, student_name: 'Лука Анисимов', lesson_date: "2021-06-04"},
+        {mentorId: 3, blockId: 4, student_name: 'Борис Дмитриев', lesson_date: "2021-06-03"},
+        {mentorId: 3, blockId: 5, student_name: 'Дмитрий Самойлов', lesson_date: "2021-06-05"},
+        {mentorId: 3, blockId: 6, student_name: 'Вячеслав Горбунов', lesson_date: "2021-06-03"},
+        {mentorId: 3, blockId: 7, student_name: 'Олег Емельянов', lesson_date: "2021-06-04"},
 
     ]
 
