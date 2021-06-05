@@ -12,7 +12,7 @@ function UITable(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    console.log(props)
+    //console.log(props)
     return (
         <>
             <div onClick={handleShow}> {props.cellValue}</div>

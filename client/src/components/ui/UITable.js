@@ -17,17 +17,15 @@ export default class UITable extends Component {
         this.state = {
             data: props.data,
             columns: props.columns,
-            rowActions: props.rowActions,
             actions: props.actions
         };
-        console.log(this.state)
+        //console.log(this.state)
     }
 
     componentWillReceiveProps(props) {
         this.setState({
             data: props.data,
             columns: props.columns,
-            rowActions: props.rowActions,
             actions: props.actions
         });
     }
@@ -72,7 +70,7 @@ export default class UITable extends Component {
                         this.state.data.map(item => <UITableRow
                             row={item}
                             columns={this.state.columns}
-                            rowActions={this.state.rowActions}/>)
+                        />)
                     }
                     </tbody>
                 </Table></div>

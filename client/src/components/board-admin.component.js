@@ -22,7 +22,7 @@ export default class BoardAdmin extends Component {
         if (!this.state.isAdmin)
             window.location.href = '/'
 
-        console.log(window.location.pathname.split("/").pop())
+        //console.log(window.location.pathname.split("/").pop())
         UserService.getAdminBoard().then(
             response => {
                 this.setState({
